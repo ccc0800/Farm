@@ -4,7 +4,7 @@
 --host 0.0.0.0 ^
 --port 8080 ^
 --ctx-size 65536 ^
---n-parallel 1 ^
+--parallel 1 ^
 --threads 16 ^
 --threads-batch 16 ^
 --n-gpu-layers -1 ^
