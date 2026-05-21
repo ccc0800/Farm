@@ -1,0 +1,12 @@
+.\llama-server.exe -m gemma-4-26B-A4B-it-Q4_K_M.gguf ^
+  --mmproj mmproj-gemma-4-26B-A4B-it-bf16.gguf ^
+  --host 0.0.0.0 --port 8080 ^
+  --ctx-size 98304 --parallel 1 ^
+  --threads 16 --threads-batch 16 ^
+  --n-gpu-layers -1 --flash-attn on ^
+  --no-mmap ^
+  --cache-type-k q8_0 ^
+  --cache-type-v q8_0 ^
+  -b 2048 -ub 2048 ^
+  --cache-ram 4096 ^
+  --no-warmup --reasoning off
