@@ -1,0 +1,15 @@
+.\llama-server.exe ^
+-m .\gemma-4-E4B-it-Q4_K_M.gguf ^
+--host 0.0.0.0 ^
+--port 8080 ^
+--ctx-size 8192 ^
+--parallel 1 ^
+--threads 4 ^
+--threads-batch 4 ^
+--ubatch-size 256 ^
+-ctk q8_0 ^
+-ctv q8_0 ^
+--cache-ram 1024 ^
+--no-warmup ^
+--reasoning off ^
+-fit off
