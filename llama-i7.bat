@@ -4,8 +4,8 @@
 --port 8080 ^
 --ctx-size 8192 ^
 --parallel 1 ^
---threads 4 ^
---threads-batch 4 ^
+--threads 6 ^
+--threads-batch 6 ^
 --ubatch-size 256 ^
 -ctk q8_0 ^
 -ctv q8_0 ^
