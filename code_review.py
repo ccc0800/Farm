@@ -4,9 +4,9 @@ import requests
 from pathlib import Path
 
 # 配置參數
-LLMCPP_URL = "http://192.168.1.100:8080/v1/chat/completions"
+LLMCPP_URL = "http://192.168.10.243:8080/v1/chat/completions" # 請修改為你 Windows 的 LAN IP
 MAX_CODE_CHARS = 8000
-MAX_STATIC_CHARS = 2000 
+MAX_STATIC_CHARS = 2000
 TIMEOUT_RUFF = 10     # 靜態分析超時限制 (秒)
 TIMEOUT_LLM = 120     # LLM 推理超時限制 (秒)
 
@@ -32,11 +32,11 @@ def run_real_static_analysis(file_path: Path, source_code: str) -> str:
 
         if not output:
             return "✅ 靜態分析未發現硬性語法錯誤。"
-        
+
         if len(output) > MAX_STATIC_CHARS:
             return output[:MAX_STATIC_CHARS] + "\n⚠️ 靜態分析結果過長，已截斷..."
         return output
-        
+
     except FileNotFoundError:
         return "⚠️ 系統未安裝 ruff，略過靜態分析。"
     except subprocess.TimeoutExpired:
@@ -66,7 +66,6 @@ def secure_code_review(file_path_str: str) -> str:
     static_result = run_real_static_analysis(file_path, source_code)
 
     # 5. 建構 Prompt
-    # 這裡明確指示：靜態分析是事實，但 LLM 需自行判斷邏輯漏洞
     system_prompt = (
         "你是一位極端嚴苛的資深工程師。你的任務是審查程式碼。\n"
         "1. 首先解釋靜態分析工具發現的問題（這是客觀事實）。\n"
@@ -86,16 +85,16 @@ def secure_code_review(file_path_str: str) -> str:
         response = requests.post(LLMCPP_URL, json=payload, timeout=TIMEOUT_LLM)
         response.raise_for_status()
         result = response.json()
-        
+
         # 檢查 choices 是否有效
         choices = result.get('choices', [])
         if not choices:
             return "⚠️ 模型回傳空的 choices，伺服器可能發生推理異常"
-        
+
         choice = choices[0]
         if choice.get('finish_reason') == 'length':
             return "⚠️ 模型輸出被截斷，請調整 max_tokens。"
-        
+
         # 使用 .get 鏈防禦 KeyError
         return choice.get('message', {}).get('content', '⚠️ 模型回傳內容為空')
 
@@ -103,7 +102,19 @@ def secure_code_review(file_path_str: str) -> str:
         return "⚠️ llama.cpp 回傳格式錯誤 (非 JSON)，伺服器可能處於錯誤狀態。"
     except requests.exceptions.Timeout:
         return "⚠️ 連線超時，請檢查伺服器負載。"
+    except requests.exceptions.ConnectionError:
+        return "⚠️ 無法連線至 llama.cpp，請確認伺服器是否正在執行。"
     except requests.exceptions.HTTPError as e:
         return f"⚠️ HTTP 錯誤: {e.response.status_code}"
     except Exception as e:
         return f"⚠️ 未知異常: {e}"
+
+# --- 簡單的執行測試範例 ---
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) < 2:
+        print("用法: python code_review.py <目標檔案路徑>")
+    else:
+        result = secure_code_review(sys.argv[1])
+        print("\n--- 審查結果 ---\n")
+        print(result)
