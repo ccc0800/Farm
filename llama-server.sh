@@ -1,12 +1,8 @@
 #!/usr/bin/env bash
 MODEL="/models/google_gemma-4-26B-A4B-it-Q3_K_M.gguf"
-
-# 數學上永遠走 FALLBACK，直接固定
-NGL=30
+NGL=40
 CTX=65536
-
 echo "[v3.2] ctx=$CTX ngl=$NGL"
-
 exec podman run --rm \
   --device /dev/kfd \
   --device /dev/dri \
@@ -21,12 +17,13 @@ exec podman run --rm \
   rocm/dev-ubuntu-24.04:7.2.3-complete \
   /app/llama-server \
     -m "$MODEL" \
+    --mmproj /models/mmproj-gemma-4-26B-A4B-it-bf16.gguf \
     --host 0.0.0.0 \
     --port 8080 \
     --ctx-size "$CTX" \
     --parallel 1 \
     --batch-size 512 \
-    --ubatch-size 128 \
+    --ubatch-size 4096 \
     --flash-attn on \
     --cache-ram 4096 \
     -ctk q4_0 \
