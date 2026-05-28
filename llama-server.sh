@@ -10,7 +10,7 @@ exec podman run --rm \
   --security-opt seccomp=unconfined \
   --ipc=host \
   -p 8080:8080 \
-  -v /home/cc/model:/models:Z \
+  -v /home/cc/models:/models:Z \
   -v /home/cc/llama-build:/app:Z \
   -e LD_LIBRARY_PATH=/app \
   -e GPU_MAX_ALLOC_PERCENT=70 \
