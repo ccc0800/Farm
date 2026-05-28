@@ -28,6 +28,7 @@ exec podman run --rm \
     --cache-ram 4096 \
     -ctk q4_0 \
     -ctv q4_0 \
+    --jinja \
     --reasoning off \
     --no-mmap \
     -ngl "$NGL"
