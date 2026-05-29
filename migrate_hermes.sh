@@ -27,7 +27,7 @@ fi
 
 # --- 第一階段：打包並傳送 ---
 echo "📦 [1/4] 打包並傳送 ~/.hermes..."
-echo "      (排除 venv 與暫存 DB 檔案)"
+echo "      (排除 venv 檔案)"
 tar -czf - -C "$HOME" \
     --exclude=".hermes/hermes-agent/venv" \
     --exclude=".hermes/hermes-agent/__pycache__" \
