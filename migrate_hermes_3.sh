@@ -8,7 +8,7 @@
 set -e
 
 SRC_HERMES="$HOME/.hermes"
-DEST="cc@192.168.10.218"
+DEST="cc@192.168.10.222"
 DEST_HERMES="/home/cc/.hermes"
 DEST_HERMES_AGENT="$DEST_HERMES/hermes-agent"
 DEST_VENV="$DEST_HERMES_AGENT/venv"
