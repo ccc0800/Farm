@@ -22,10 +22,9 @@ exec podman run --rm \
     --port 8080 \
     --ctx-size "$CTX" \
     --parallel 1 \
-    --batch-size 512 \
-    --ubatch-size 4096 \
+    --batch-size 4096\
+    --ubatch-size 512 \
     --flash-attn on \
-    --cache-ram 4096 \
     -ctk q4_0 \
     -ctv q4_0 \
     --jinja \
