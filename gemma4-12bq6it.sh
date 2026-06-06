@@ -29,7 +29,7 @@ exec podman run --rm \
     --flash-attn on \
     --jinja \
     --no-mmap \
-    --reasoning-budget 128 \
+    --reasoning-budget 0 \
     --reasoning off \
     --spec-type none \
     -ngl "$NGL"
