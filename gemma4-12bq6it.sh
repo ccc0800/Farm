@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
-
 MODEL="/models/gemma-4-12B-it-Q6_K.gguf"
 MMPROJ="/models/mmproj-gemma-4-12B-it-bf16.gguf"
-
 NGL=999
 CTX=65536
-
 echo "[v4.1-Fixed] ctx=$CTX ngl=$NGL"
 
 exec podman run --rm \
@@ -32,6 +29,7 @@ exec podman run --rm \
     --flash-attn on \
     --jinja \
     --no-mmap \
+    --reasoning-budget 128 \
     --reasoning off \
     --spec-type none \
     -ngl "$NGL"
