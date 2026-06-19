@@ -12,7 +12,7 @@ C:\llama-b9601\llama-server.exe ^
     --host 0.0.0.0 ^
     --port 8080 ^
     --ctx-size %CTX% ^
-    --batch-size 1024 ^
+    --batch-size 2048 ^
     --ubatch-size 512 ^
     --parallel 1 ^
     --flash-attn on ^
