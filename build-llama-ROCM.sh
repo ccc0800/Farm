@@ -15,7 +15,7 @@ podman run --rm -it \
     apt-get update -q && apt-get install -y cmake git build-essential python3 python3-pip &&
     git clone https://github.com/ggml-org/llama.cpp /tmp/llama &&
     cd /tmp/llama &&
-    HIPCXX=\\\"\\\$(hipconfig -l)/clang\\\" HIP_PATH=\\\"\\\$(hipconfig -R)\\\" \
+    HIPCXX=\"\$(hipconfig -l)/clang\" HIP_PATH=\"\$(hipconfig -R)\" \
     cmake -B build \
       -DGGML_HIP=ON \
       -DAMDGPU_TARGETS=gfx1201 \
