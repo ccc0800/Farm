@@ -1,15 +1,21 @@
 #!/bin/bash
+set -e
+
+mkdir -p /home/cc/models
+mkdir -p /home/cc/llama-build
+
 podman run --rm -it \
   --device /dev/kfd \
   --device /dev/dri \
   --group-add keep-groups \
   -v /home/cc/models:/models:Z \
   -v /home/cc/llama-build:/output:Z \
-  rocm/dev-ubuntu-24.04:7.2.4-complete \
+  rocm/dev-ubuntu-24.04:7.14.1-full \
   bash -c "
     apt-get update -q && apt-get install -y cmake git build-essential python3 python3-pip &&
     git clone https://github.com/ggml-org/llama.cpp /tmp/llama &&
     cd /tmp/llama &&
+    HIPCXX=\\\"\\\$(hipconfig -l)/clang\\\" HIP_PATH=\\\"\\\$(hipconfig -R)\\\" \
     cmake -B build \
       -DGGML_HIP=ON \
       -DAMDGPU_TARGETS=gfx1201 \
