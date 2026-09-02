@@ -11,7 +11,7 @@ podman run --rm -it \
   bash -c "
     apt-get update -q && apt-get install -y \
       cmake git build-essential python3 python3-pip \
-      libvulkan-dev vulkan-tools glslang-tools spirv-tools \
+      libvulkan-dev vulkan-tools glslc glslang-tools spirv-tools \
       mesa-vulkan-drivers &&
     git clone https://github.com/ggml-org/llama.cpp /tmp/llama &&
     cd /tmp/llama &&
